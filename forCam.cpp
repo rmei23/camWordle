@@ -18,6 +18,7 @@ class Game{
         void setWord();
         void makeGame();
         bool win(string str);
+        bool validWord(string word);
 };
 
 Game::Game(){
@@ -86,6 +87,18 @@ void Game::setWord(){
     return;
 }
 
+bool Game::validWord(string word){
+    if(word.length() != 5){
+        return false;
+    }
+    for(int i = 0; i < wordBank.size(); i++){
+        if(wordBank[i] == word){
+            return true;
+        }
+    }
+    return false;
+}
+
 void Game::makeGame(){
     readWords("words.txt");
     setWord();
@@ -103,6 +116,10 @@ int main(){
     while(!(newGame.win(input)) && turns < 6){
         cout << "This is attempt #" << turns + 1 << "." << endl << "Enter your 5 letter word:" << endl;
         cin >> input;
+        while(newGame.validWord(input) == false){
+            cout << "Invalid word. Please enter a valid word" << endl;
+            cin >> input;
+        }
         if(newGame.win(input)){
             cout << "|o|o|o|o|o|" << endl << "Congradulations! You win! You guessed the word in " << turns + 1 << " tries!" << endl;
             break;
@@ -114,7 +131,7 @@ int main(){
         turns++;
     }
     if(turns == 6){
-        cout << "Nice try but you are out of attempts." << endl;
+        cout << "Nice try but you are out of attempts. The word was: " << newGame.masterWord << endl;
     }
     return 0;
 }
