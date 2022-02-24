@@ -7,6 +7,7 @@ using namespace std;
 class Game{
     private:
         vector<string> wordBank;
+        vector<string> guessBank;
 
     public:
         string masterWord;
@@ -14,7 +15,8 @@ class Game{
         Game();
         void checkWord(string word);
         void displayBoard();
-        void readWords(string fileName);
+        void fillWordBank(string fileName);
+        void fillGuessBank(string fileName);
         void setWord();
         void makeGame();
         bool win(string str);
@@ -67,12 +69,24 @@ bool Game::win(string str){
     return false;
 }
 
-void Game::readWords(string fileName){
+void Game::fillWordBank(string fileName){
     string line;
     ifstream file(fileName);
     if(file.is_open()){
         while(getline(file, line)){
             wordBank.push_back(line);
+        }
+    }
+    file.close();
+    return;
+}
+
+void Game::fillGuessBank(string fileName){
+    string line;
+    ifstream file(fileName);
+    if(file.is_open()){
+        while(getline(file, line)){
+            guessBank.push_back(line);
         }
     }
     file.close();
@@ -91,8 +105,8 @@ bool Game::validWord(string word){
     if(word.length() != 5){
         return false;
     }
-    for(int i = 0; i < wordBank.size(); i++){
-        if(wordBank[i] == word){
+    for(int i = 0; i < guessBank.size(); i++){
+        if(guessBank[i] == word){
             return true;
         }
     }
@@ -100,7 +114,8 @@ bool Game::validWord(string word){
 }
 
 void Game::makeGame(){
-    readWords("words.txt");
+    fillWordBank("allWords.txt");
+    fillGuessBank("possibleWords.txt");
     setWord();
     cout << "Correct letters will show up as a <o> on the board, Correct letters in the wrong place will show up as <?>, and Incorrect letters will show up as <x>. "
     "You will have 6 attempts to guess the word." << endl;
