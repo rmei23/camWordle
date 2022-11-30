@@ -114,8 +114,8 @@ bool Game::validWord(string word){
 }
 
 void Game::makeGame(){
-    fillWordBank("allWords.txt");
-    fillGuessBank("possibleWords.txt");
+    fillWordBank("possibleWords.txt");
+    fillGuessBank("allWords.txt");
     setWord();
     cout << "Correct letters will show up as a <o> on the board, Correct letters in the wrong place will show up as <?>, and Incorrect letters will show up as <x>. "
     "You will have 6 attempts to guess the word." << endl;
